@@ -1,0 +1,112 @@
+WindowWidgetClass rootFrame {
+ visible 1
+ color 0.5098 0.5098 0.5098 1
+ position 0 0
+ size 600 450
+ halign center_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ draggable 0
+ style Colorable
+ {
+  PanelWidgetClass TitlePanel {
+   ignorepointer 1
+   color 0.3922 0.3922 0.3922 1
+   position 0 0
+   size 1 100
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   style rover_sim_colorable
+   {
+    TextWidgetClass TitleText {
+     ignorepointer 1
+     size 1 50
+     halign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 1
+     text "Dump inventory"
+     "text halign" center
+     "text valign" center
+    }
+    TextWidgetClass Help1 {
+     ignorepointer 1
+     position 10 48
+     size 1 24
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 1
+     text "Left DoubleClick - Restore selected inventory"
+    }
+    TextWidgetClass Help2 {
+     ignorepointer 1
+     position 10 72
+     size 1 24
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 1
+     text "Right DoubleClick - Delete selected inventory"
+    }
+   }
+  }
+  TextListboxWidgetClass ListDumps {
+   clipchildren 0
+   position 0 100
+   size 1 300
+   hexactpos 1
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   "title visible" 1
+   colums "Name;50;Datetime;50"
+   lines 10
+   "highlight row" 0
+  }
+  PanelWidgetClass BottomPanel {
+   ignorepointer 1
+   color 0.1961 0.1961 0.1961 1
+   position 0 0
+   size 1 50
+   valign bottom_ref
+   hexactpos 0
+   vexactpos 1
+   hexactsize 0
+   vexactsize 1
+   style rover_sim_colorable
+   {
+    EditBoxWidgetClass EditBoxDumpName {
+     position 0 0
+     size 490 48
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style DefaultBorder
+     "Use default text" 0
+     "exact text" 0
+    }
+    ButtonWidgetClass ButtonCreateDump {
+     inheritalpha 0
+     color 0.2353 0.2353 0.2353 1
+     position 0 0
+     size 100 48
+     halign right_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style Default
+     text "Dump"
+    }
+   }
+  }
+ }
+}

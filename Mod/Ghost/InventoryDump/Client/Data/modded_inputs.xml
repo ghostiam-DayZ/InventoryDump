@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<modded_inputs>
+    <inputs>
+        <actions>
+            <input name="GhostOpenInventoryDump" loc="Open Inventory Dump" />
+        </actions>
+    </inputs>
+    <preset>
+		<input name="GhostOpenInventoryDump">
+			<btn name="kEquals">
+            </btn>
+		</input>
+    </preset>
+</modded_inputs>

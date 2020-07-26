@@ -1,0 +1,20 @@
+{
+    "Departments": [
+        {
+            "DepartmentName": "Ghost",
+            "Sections": [
+                {
+                    "SectionName": "Developers",
+                    "SectionLines": [
+                        "GhostIAm"
+                },
+                {
+                    "SectionName": "Special Thanks",
+                    "SectionLines": [
+                        "You"
+                    ]
+                }
+            ]
+        }
+    ]
+}
