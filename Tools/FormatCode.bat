@@ -6,12 +6,8 @@
 :::::::::::::::::::::::::::::::::::::::::::::
 
 @echo off
+
+:: CD to batch script dir
 cd /D "%~dp0"
 
-call KillAll.bat
-
-call StartServer.bat
-
-TIMEOUT /T 10 /NOBREAK
-
-call StartClient.bat
+AStyle.exe --recursive --style=google --indent-switches --add-braces --unpad-paren --lineend=windows --suffix=none --break-after-logical ..\*.c ..\*.cpp

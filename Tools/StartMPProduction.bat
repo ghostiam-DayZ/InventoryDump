@@ -1,7 +1,7 @@
 :::::::::::::::::::::::::::::::::::::::::::::
 ::                                         ::
 ::            Author: GhostIAm             ::
-::          URL: https://ghost.im          ::
+::  URL: https://github.com/ghostiam-DayZ  ::
 ::                                         ::
 :::::::::::::::::::::::::::::::::::::::::::::
 
@@ -19,6 +19,8 @@ FOR /F "tokens=*" %%i in ('type ..\mod.cfg ^| findStr.exe "%1="') do SET %%i
 :: / Load Settings
 
 call KillAll.bat
+
+call BuildMod.bat production
 
 call StartServer.bat production
 
