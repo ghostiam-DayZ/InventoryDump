@@ -13,10 +13,9 @@ class CfgMods {
     class Ghost_InventoryDump_Client {
         dir = "Ghost/InventoryDump";
         picture = "";
-        actionName = "GitHub";
         action = "https://github.com/ghostiam-DayZ";
         hideName = 0;
-        hidePicture = 1;
+        hidePicture = 0;
         name = "InventoryDump";
         credits = "GhostIAm";
         author = "GhostIAm";
