@@ -45,22 +45,17 @@ class InventoryDumpNetwork_Server {
             return;
         }
 
-        PlayerBase player = GetPlayerFromIdentity(sender);
-        _invDump.Delete(player, data.param1);
+        _invDump.Delete(sender, data.param1);
     }
 
     void RPC_ListRequest(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
-        PlayerBase player = GetPlayerFromIdentity(sender);
-
-        array<string> list = _invDump.GetList(player);
-        GetRPCManager().SendRPC("Ghost_InventoryDump", "RPC_ListResponseFromServer", new Param1<array<string>>(list), true);
+        array<string> list = _invDump.GetList(sender);
+        GetRPCManager().SendRPC("Ghost_InventoryDump", "RPC_ListResponseFromServer", new Param1<array<string>>(list), true, sender);
     }
 
     void RPC_CheckPermissionsRequest(CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target) {
-        PlayerBase player = GetPlayerFromIdentity(sender);
-
-        bool allow = _invDump.CheckPermissions(player);
-        GetRPCManager().SendRPC("Ghost_InventoryDump", "RPC_CheckPermissionsResponseFromServer", new Param1<bool>(allow), true);
+        bool allow = _invDump.CheckPermissions(sender);
+        GetRPCManager().SendRPC("Ghost_InventoryDump", "RPC_CheckPermissionsResponseFromServer", new Param1<bool>(allow), true, sender);
     }
 
     PlayerBase GetPlayerFromIdentity(ref PlayerIdentity sender) {
@@ -68,26 +63,18 @@ class InventoryDumpNetwork_Server {
             return GetGame().GetPlayer();
         }
 
-        string senderSteamid = sender.GetPlainId();
-
         array<Man> mans = new array<Man>;
         GetGame().GetPlayers(mans);
 
-        Man senderMan;
         for(int i = 0; i < mans.Count(); i++) {
             Man man = mans.Get(i);
-            if(man.GetIdentity().GetPlainId() == senderSteamid) {
-                senderMan = man;
-                break;
+            if(man.GetIdentity().GetPlainId() == sender.GetPlainId()) {
+                return PlayerBase.Cast(man);
             }
         }
 
-        if(!senderMan) {
-            GError("Empty senderMan");
-            return null;
-        }
-
-        return PlayerBase.Cast(senderMan);
+        GError("Empty sender Man");
+        return null;
     }
 }
 
@@ -117,13 +104,12 @@ class InventoryDump {
         }
     }
 
-    bool CheckPermissions(PlayerBase player) {
+    bool CheckPermissions(ref PlayerIdentity id) {
         if(!GetGame().IsMultiplayer()) {
             return true;
         }
 
         string steamID = "local";
-        PlayerIdentity id = player.GetIdentity();
         if(id) {
             steamID = id.GetPlainId();
         }
@@ -143,13 +129,12 @@ class InventoryDump {
         return false;
     }
 
-    array <string> GetList(PlayerBase player) {
-        if(!CheckPermissions(player)) {
+    array <string> GetList(ref PlayerIdentity id) {
+        if(!CheckPermissions(id)) {
             return new array <string>();
         }
 
         string steamID = "local";
-        PlayerIdentity id = player.GetIdentity();
         if(id) {
             steamID = id.GetPlainId();
         }
@@ -169,13 +154,12 @@ class InventoryDump {
         return list;
     }
 
-    void Delete(PlayerBase player, int index) {
-        if(!CheckPermissions(player)) {
+    void Delete(ref PlayerIdentity id, int index) {
+        if(!CheckPermissions(id)) {
             return;
         }
 
         string steamID = "local";
-        PlayerIdentity id = player.GetIdentity();
         if(id) {
             steamID = id.GetPlainId();
         }
@@ -266,12 +250,12 @@ class InventoryDump {
     */
 
     void Dump(PlayerBase player, string name) {
-        if(!CheckPermissions(player)) {
+        PlayerIdentity id = player.GetIdentity();
+        if(!CheckPermissions(id)) {
             return;
         }
 
         string steamID = "local";
-        PlayerIdentity id = player.GetIdentity();
         if(id) {
             steamID = id.GetPlainId();
         }
@@ -371,12 +355,12 @@ class InventoryDump {
     }
 
     void Restore(PlayerBase player, int index) {
-        if(!CheckPermissions(player)) {
+        PlayerIdentity id = player.GetIdentity();
+        if(!CheckPermissions(id)) {
             return;
         }
 
         string steamID = "local";
-        PlayerIdentity id = player.GetIdentity();
         if(id) {
             steamID = id.GetPlainId();
         }
@@ -392,11 +376,16 @@ class InventoryDump {
         InventoryDumpHead head = dump.inventory.Get(index);
         InventoryDumpChild data = head.data;
 
-        GetGame().ObjectDelete(player);
-        player = PlayerBase.Cast(GetGame().CreatePlayer(id, data.item, data.pos, 0, "NONE"));
+        player.RemoveAllItems();
+        //PlayerBase newPlayer = PlayerBase.Cast(GetGame().CreatePlayer(id, data.item, data.pos, 0, "NONE"));
         RestoreChilds(player, data.childrens);
 
-        GetGame().SelectPlayer(id, player);
+        /*
+        return;
+
+        GetGame().SelectPlayer(id, newPlayer);
+        GetGame().ObjectDelete(player);
+        */
     }
 
     void RestoreChilds(EntityAI entity, array<ref InventoryDumpChild> childrens) {

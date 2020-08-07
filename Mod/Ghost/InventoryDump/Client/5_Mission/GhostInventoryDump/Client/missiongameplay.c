@@ -1,19 +1,13 @@
 modded class MissionGameplay {
     void GLog(string msg) {
-        Print("[Ghost_MissionGameplay] " + msg);
+        Print("[Ghost_InventoryDump_MissionGameplay] " + msg);
     }
 
     ref InventoryDumpNetwork_Client _invDumpClient;
-    ref InventoryDumpNetwork_Server _invDumpServer;
     void MissionGameplay() {
-        GLog("Started");
+        GLog("Init");
 
         _invDumpClient = InventoryDumpNetwork_Client();
-
-        if(!GetGame().IsMultiplayer()) {
-            GLog("Started Server");
-            _invDumpServer = InventoryDumpNetwork_Server();
-        }
     }
 
     override void OnKeyPress(int key) {

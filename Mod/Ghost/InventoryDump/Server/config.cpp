@@ -13,7 +13,8 @@ class CfgMods {
     class Ghost_InventoryDump_Server {
         dir = "Ghost/InventoryDump";
         picture = "";
-        action = "";
+        actionName = "GitHub";
+        action = "https://github.com/ghostiam-DayZ";
         hideName = 1;
         hidePicture = 1;
         name = "InventoryDump";
